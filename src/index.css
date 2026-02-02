@@ -1,96 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600&family=UnifrakturMaguntia&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Medieval Illuminated Manuscript Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Parchment & Background */
+    --background: 39 45% 88%;
+    --foreground: 140 35% 15%;
+    
+    /* Parchment cream variations */
+    --parchment: 40 50% 90%;
+    --parchment-dark: 38 40% 82%;
+    --parchment-light: 42 55% 94%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Deep forest greens */
+    --primary: 140 50% 22%;
+    --primary-foreground: 42 55% 94%;
+    --forest: 145 55% 18%;
+    --forest-light: 138 45% 28%;
+    
+    /* Moss greens */
+    --secondary: 95 35% 32%;
+    --secondary-foreground: 42 55% 94%;
+    --moss: 100 40% 35%;
+    --moss-light: 98 35% 45%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Antique gold */
+    --accent: 42 75% 45%;
+    --accent-foreground: 140 50% 15%;
+    --gold: 45 85% 50%;
+    --gold-dark: 40 70% 38%;
+    --gold-light: 48 90% 62%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* UI Elements */
+    --card: 40 50% 90%;
+    --card-foreground: 140 35% 15%;
+    --popover: 40 50% 90%;
+    --popover-foreground: 140 35% 15%;
+    --muted: 38 30% 78%;
+    --muted-foreground: 140 25% 35%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 42 55% 94%;
+    --border: 40 40% 70%;
+    --input: 40 45% 85%;
+    --ring: 42 75% 45%;
+    --radius: 0.25rem;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Decorative */
+    --vine: 135 50% 25%;
+    --fairy-glow: 85 60% 55%;
+    --magic-sparkle: 50 100% 70%;
   }
 }
 
@@ -99,7 +62,211 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Crimson Text', Georgia, serif;
   }
+}
+
+@layer components {
+  /* Medieval Typography */
+  .font-medieval {
+    font-family: 'Cinzel Decorative', 'Times New Roman', serif;
+  }
+
+  .font-uncial {
+    font-family: 'UnifrakturMaguntia', 'Cinzel Decorative', serif;
+  }
+
+  .font-body {
+    font-family: 'Crimson Text', Georgia, serif;
+  }
+
+  /* Chapter Titles */
+  .chapter-title {
+    @apply font-medieval text-4xl md:text-5xl lg:text-6xl font-bold tracking-wide;
+    color: hsl(var(--gold-dark));
+    text-shadow: 
+      2px 2px 0 hsl(var(--forest) / 0.3),
+      0 0 20px hsl(var(--gold) / 0.4);
+  }
+
+  .chapter-number {
+    @apply font-uncial text-2xl md:text-3xl block mb-2;
+    color: hsl(var(--forest));
+  }
+
+  /* Illuminated Drop Cap */
+  .drop-cap::first-letter {
+    @apply float-left font-medieval text-6xl md:text-7xl leading-none pr-3;
+    color: hsl(var(--gold));
+    text-shadow: 2px 2px 0 hsl(var(--forest));
+  }
+
+  /* Ornate Border */
+  .ornate-border {
+    border: 4px solid hsl(var(--gold-dark));
+    box-shadow: 
+      inset 0 0 20px hsl(var(--gold) / 0.15),
+      0 0 30px hsl(var(--forest) / 0.2);
+    background: linear-gradient(
+      to bottom,
+      hsl(var(--parchment-light)),
+      hsl(var(--parchment)),
+      hsl(var(--parchment-dark))
+    );
+  }
+
+  /* Parchment Section */
+  .parchment-section {
+    background: 
+      linear-gradient(135deg, hsl(var(--parchment-light) / 0.9), hsl(var(--parchment) / 0.95)),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  }
+
+  /* Magical Button */
+  .btn-medieval {
+    @apply px-8 py-4 font-medieval text-lg tracking-wider uppercase transition-all duration-300;
+    background: linear-gradient(135deg, hsl(var(--gold-dark)), hsl(var(--gold)), hsl(var(--gold-dark)));
+    color: hsl(var(--forest));
+    border: 3px solid hsl(var(--forest));
+    box-shadow: 
+      0 4px 15px hsl(var(--gold) / 0.4),
+      inset 0 1px 0 hsl(var(--gold-light) / 0.5);
+  }
+
+  .btn-medieval:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      0 6px 25px hsl(var(--gold) / 0.6),
+      inset 0 1px 0 hsl(var(--gold-light) / 0.7),
+      0 0 30px hsl(var(--gold) / 0.3);
+  }
+
+  /* Vine Divider */
+  .vine-divider {
+    @apply relative py-8;
+  }
+
+  .vine-divider::before,
+  .vine-divider::after {
+    content: '❧';
+    @apply absolute text-3xl;
+    color: hsl(var(--vine));
+  }
+
+  .vine-divider::before {
+    left: 30%;
+    transform: scaleX(-1);
+  }
+
+  .vine-divider::after {
+    right: 30%;
+  }
+
+  /* Fairy Particle */
+  .fairy-particle {
+    @apply absolute rounded-full pointer-events-none;
+    background: radial-gradient(circle, hsl(var(--fairy-glow)), transparent);
+    box-shadow: 0 0 10px hsl(var(--fairy-glow)), 0 0 20px hsl(var(--gold-light) / 0.5);
+  }
+
+  /* Celtic Knot Border */
+  .celtic-border {
+    border-image: repeating-linear-gradient(
+      45deg,
+      hsl(var(--forest)) 0px,
+      hsl(var(--forest)) 2px,
+      hsl(var(--gold)) 2px,
+      hsl(var(--gold)) 4px
+    ) 8;
+  }
+
+  /* Scroll Animation */
+  .page-turn {
+    animation: pageTurn 0.8s ease-out;
+  }
+
+  @keyframes pageTurn {
+    0% {
+      opacity: 0;
+      transform: perspective(1000px) rotateY(-15deg) translateX(-50px);
+    }
+    100% {
+      opacity: 1;
+      transform: perspective(1000px) rotateY(0) translateX(0);
+    }
+  }
+
+  /* Floating Animation */
+  @keyframes floatFairy {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+      transform: translate(10px, -15px) rotate(5deg);
+    }
+    50% {
+      transform: translate(-5px, -25px) rotate(-3deg);
+    }
+    75% {
+      transform: translate(-15px, -10px) rotate(3deg);
+    }
+  }
+
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      box-shadow: 0 0 20px hsl(var(--gold) / 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px hsl(var(--gold) / 0.6), 0 0 60px hsl(var(--fairy-glow) / 0.3);
+    }
+  }
+
+  .animate-float-fairy {
+    animation: floatFairy 8s ease-in-out infinite;
+  }
+
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  .animate-glow-pulse {
+    animation: glowPulse 3s ease-in-out infinite;
+  }
+}
+
+/* Form Inputs Medieval Style */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+  @apply w-full px-4 py-3 rounded-sm font-body text-lg;
+  background: hsl(var(--parchment-light));
+  border: 2px solid hsl(var(--gold-dark) / 0.5);
+  color: hsl(var(--forest));
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: hsl(var(--gold));
+  box-shadow: 0 0 15px hsl(var(--gold) / 0.3);
 }
