@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import castleDragon from "@/assets/castle-dragon.png";
+import cover from "@/assets/cover.png";
 
 const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Castle Background */}
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40"
-        style={{ backgroundImage: `url(${castleDragon})` }}
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
+        style={{ backgroundImage: `url(${cover})` }}
       />
       
       {/* Gradient Overlay */}
@@ -59,12 +60,12 @@ const HeroSection = () => {
         >
           <h2 className="font-medieval text-3xl md:text-5xl lg:text-6xl text-forest-light mb-2"
               style={{ textShadow: "2px 2px 0 hsl(45 85% 50% / 0.3)" }}>
-            Lady Alexandra Luna
+            Alexandra Luna
           </h2>
           <span className="font-uncial text-2xl md:text-3xl text-gold block my-4">&</span>
           <h2 className="font-medieval text-3xl md:text-5xl lg:text-6xl text-forest-light"
               style={{ textShadow: "2px 2px 0 hsl(45 85% 50% / 0.3)" }}>
-            Sir Roger Alejandro
+            Roger Alejandro
           </h2>
         </motion.div>
 
@@ -97,7 +98,7 @@ const HeroSection = () => {
             opacity: { duration: 1, delay: 2 },
             y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
           }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-2 left-1/2 -translate-x-1/2"
         >
           <ChevronDown className="w-10 h-10 text-gold-dark" />
         </motion.div>

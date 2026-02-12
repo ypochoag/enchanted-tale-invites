@@ -12,19 +12,46 @@ const RSVPSection = () => {
     costume: "",
     message: ""
   });
+
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  // Google Forms URL - Replace with actual form URL
-  const googleFormsUrl = "https://docs.google.com/forms/d/e/YOUR_FORM_ID/formResponse";
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real implementation, this would submit to Google Forms
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
+    setIsLoading(true);
+    setError("");
+
+    const formUrl =
+      "https://docs.google.com/forms/d/e/1FAIpQLSduoX4JN0E6ARSpYJk94MWdZMVQwLMbBtXXxknhgwJzIyEdeA/formResponse";
+
+    const formBody = new FormData();
+    formBody.append("entry.1036507936", formData.name);
+    formBody.append("entry.2078010478", formData.email);
+    formBody.append("entry.655814804", formData.attendance);
+    formBody.append("entry.1437296836", formData.guests);
+    formBody.append("entry.1302394596", formData.costume);
+    formBody.append("entry.108466867", formData.dietary);
+    formBody.append("entry.338487351", formData.message);
+
+    try {
+      await fetch(formUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: formBody,
+      });
+
+      setIsSubmitted(true);
+    } catch (err) {
+      setError("Hubo un problema enviando el mensaje.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value
@@ -38,11 +65,15 @@ const RSVPSection = () => {
         animate={{ opacity: 1, scale: 1 }}
         className="text-center py-12"
       >
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-forest mb-6"
-             style={{ boxShadow: "0 0 30px hsl(145 55% 18% / 0.5)" }}>
+        <div
+          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-forest mb-6"
+          style={{ boxShadow: "0 0 30px hsl(145 55% 18% / 0.5)" }}
+        >
           <Check className="w-10 h-10 text-gold" />
         </div>
-        <h3 className="font-medieval text-3xl text-gold-dark mb-4">¡Mensaje Recibido!</h3>
+        <h3 className="font-medieval text-3xl text-gold-dark mb-4">
+          ¡Mensaje Recibido!
+        </h3>
         <p className="font-body text-xl text-forest max-w-lg mx-auto">
           Vuestro cuervo mensajero ha llegado al castillo. Os aguardamos con ansias en la celebración.
         </p>
@@ -52,26 +83,19 @@ const RSVPSection = () => {
 
   return (
     <div className="font-body text-lg text-forest leading-relaxed">
-      {/* Intro */}
       <p className="drop-cap text-xl mb-10 text-center max-w-2xl mx-auto">
-        Enviad vuestro cuervo mensajero para confirmar vuestra asistencia a esta 
-        celebración épica. El reino necesita conocer el número de nobles que honrarán 
+        Enviad vuestro cuervo mensajero para confirmar vuestra asistencia a esta
+        celebración épica. El reino necesita conocer el número de nobles que honrarán
         nuestro banquete.
       </p>
 
-      {/* Form */}
       <motion.form
         onSubmit={handleSubmit}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
         className="max-w-2xl mx-auto p-8 border-4 border-gold-dark rounded-sm bg-parchment-light/90"
-        style={{ boxShadow: "0 0 40px hsl(45 85% 50% / 0.3)" }}
       >
-        {/* Name */}
+        {/* Nombre */}
         <div className="mb-6">
-          <label className="flex items-center gap-2 font-medieval text-lg text-forest mb-2">
+          <label className="flex items-center gap-2 font-medieval text-lg mb-2">
             <User className="w-5 h-5 text-gold" />
             Nombre del Noble
           </label>
@@ -81,14 +105,13 @@ const RSVPSection = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            placeholder="Ej: Sir Lancelot del Valle"
             className="w-full"
           />
         </div>
 
         {/* Email */}
         <div className="mb-6">
-          <label className="flex items-center gap-2 font-medieval text-lg text-forest mb-2">
+          <label className="flex items-center gap-2 font-medieval text-lg mb-2">
             <Mail className="w-5 h-5 text-gold" />
             Paloma Mensajera (Email)
           </label>
@@ -98,45 +121,43 @@ const RSVPSection = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            placeholder="noble@reino.com"
             className="w-full"
           />
         </div>
 
-        {/* Attendance */}
+        {/* Asistencia */}
         <div className="mb-6">
-          <label className="font-medieval text-lg text-forest mb-3 block">
+          <label className="font-medieval text-lg mb-3 block">
             ¿Honraréis con vuestra presencia?
           </label>
-          <div className="flex gap-4 flex-wrap">
-            <label className="flex items-center gap-2 cursor-pointer">
+          <div className="flex gap-4">
+            <label className="flex items-center gap-2">
               <input
                 type="radio"
                 name="attendance"
-                value="yes"
-                checked={formData.attendance === "yes"}
+                value="si"
+                checked={formData.attendance === "si"}
                 onChange={handleChange}
-                className="w-5 h-5 accent-forest"
+                required
               />
-              <span>Asistiré con honor</span>
+              Asistiré con honor
             </label>
-            <label className="flex items-center gap-2 cursor-pointer">
+            <label className="flex items-center gap-2">
               <input
                 type="radio"
                 name="attendance"
                 value="no"
                 checked={formData.attendance === "no"}
                 onChange={handleChange}
-                className="w-5 h-5 accent-forest"
               />
-              <span>Lamentablemente no podré</span>
+              No podré asistir
             </label>
           </div>
         </div>
 
-        {/* Number of guests */}
+        {/* Invitados */}
         <div className="mb-6">
-          <label className="flex items-center gap-2 font-medieval text-lg text-forest mb-2">
+          <label className="flex items-center gap-2 font-medieval text-lg mb-2">
             <Users className="w-5 h-5 text-gold" />
             Número de Acompañantes
           </label>
@@ -154,10 +175,9 @@ const RSVPSection = () => {
           </select>
         </div>
 
-        {/* Costume idea */}
+        {/* Personaje */}
         <div className="mb-6">
-          <label className="flex items-center gap-2 font-medieval text-lg text-forest mb-2">
-            <span className="text-gold">👑</span>
+          <label className="font-medieval text-lg mb-2 block">
             ¿Qué personaje seréis?
           </label>
           <input
@@ -165,15 +185,13 @@ const RSVPSection = () => {
             name="costume"
             value={formData.costume}
             onChange={handleChange}
-            placeholder="Ej: Elfo del bosque, Caballero medieval..."
             className="w-full"
           />
         </div>
 
-        {/* Dietary restrictions */}
+        {/* Restricciones */}
         <div className="mb-6">
-          <label className="flex items-center gap-2 font-medieval text-lg text-forest mb-2">
-            <span className="text-gold">🍖</span>
+          <label className="font-medieval text-lg mb-2 block">
             Restricciones Alimenticias
           </label>
           <input
@@ -181,14 +199,13 @@ const RSVPSection = () => {
             name="dietary"
             value={formData.dietary}
             onChange={handleChange}
-            placeholder="Vegetariano, alergias, etc."
             className="w-full"
           />
         </div>
 
-        {/* Message */}
+        {/* Mensaje */}
         <div className="mb-8">
-          <label className="flex items-center gap-2 font-medieval text-lg text-forest mb-2">
+          <label className="flex items-center gap-2 font-medieval text-lg mb-2">
             <MessageSquare className="w-5 h-5 text-gold" />
             Mensaje para los Novios
           </label>
@@ -197,33 +214,27 @@ const RSVPSection = () => {
             value={formData.message}
             onChange={handleChange}
             rows={4}
-            placeholder="Escribid vuestras bendiciones..."
             className="w-full resize-none"
           />
         </div>
 
-        {/* Submit */}
+        {error && (
+          <p className="text-red-600 text-center mb-4">{error}</p>
+        )}
+
         <motion.button
           type="submit"
+          disabled={isLoading}
           className="btn-medieval w-full flex items-center justify-center gap-3"
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
         >
-          <Send className="w-5 h-5" />
-          Enviar Cuervo Mensajero
+          {isLoading ? "Enviando cuervo..." : (
+            <>
+              <Send className="w-5 h-5" />
+              Enviar Cuervo Mensajero
+            </>
+          )}
         </motion.button>
       </motion.form>
-
-      {/* Deadline */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        viewport={{ once: true }}
-        className="text-center mt-8 text-moss italic"
-      >
-        Os rogamos confirmar antes del 1 de Septiembre de 2026
-      </motion.p>
     </div>
   );
 };

@@ -4,41 +4,51 @@ import { motion } from "framer-motion";
 
 const MusicPlayer = () => {
   const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  // YouTube video ID for "Accidentally in Love" - Counting Crows
-  const videoId = "QUypt2nvorM";
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
-    // Attempt to autoplay (will be muted due to browser policies)
-    setIsPlaying(true);
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.loop = true;
+    audio.volume = 0.6;
+    audio.muted = true;
+
+    // Autoplay permitido porque está muted
+    audio.play().catch(() => {
+      console.log("Autoplay bloqueado");
+    });
+
+    // Activar sonido en el primer click del usuario
+    const enableSound = () => {
+      audio.muted = false;
+      setIsMuted(false);
+      window.removeEventListener("click", enableSound);
+    };
+
+    window.addEventListener("click", enableSound);
+
+    return () => {
+      window.removeEventListener("click", enableSound);
+    };
   }, []);
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
-    if (iframeRef.current) {
-      const src = iframeRef.current.src;
-      if (isMuted) {
-        iframeRef.current.src = src.replace("mute=1", "mute=0");
-      } else {
-        iframeRef.current.src = src.replace("mute=0", "mute=1");
-      }
-    }
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.muted = !audio.muted;
+    setIsMuted(audio.muted);
   };
 
   return (
     <>
-      {/* Hidden YouTube iframe for audio */}
-      <iframe
-        ref={iframeRef}
-        className="absolute w-0 h-0 opacity-0 pointer-events-none"
-        src={`https://www.youtube.com/embed/${videoId}?autoplay=1&loop=1&playlist=${videoId}&mute=${isMuted ? 1 : 0}&controls=0&showinfo=0&modestbranding=1`}
-        allow="autoplay"
-        title="Background Music"
+      <audio
+        ref={audioRef}
+        src="/assets/accidentally-in-love.mp3"
+        preload="auto"
       />
 
-      {/* Music Control Button */}
       <motion.button
         onClick={toggleMute}
         className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-forest border-2 border-gold shadow-lg"
