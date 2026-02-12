@@ -45,7 +45,7 @@ const MusicPlayer = () => {
     <>
       <audio
         ref={audioRef}
-        src="/assets/accidentally-in-love.mp3"
+        src="/enchanted-tale-invites/accidentally-in-love.mp3" // "/enchanted-tale-invites/accidentally-in-love.mp3"
         preload="auto"
       />
 
