@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { MapPin, Navigation } from "lucide-react";
 
 const LocationSection = () => {
-  const googleMapsUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.123456789!2d-74.123456!3d4.987654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sHacienda%20La%20Victoria!5e0!3m2!1sen!2sco!4v1234567890";
+  const googleMapsUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3975.659652952215!2d-74.23868855506136!3d4.828372584458147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f7f7667ec9a47%3A0x2f7302c96af718a9!2sCASA%20ARAG%C3%93N!5e0!3m2!1sen!2sco!4v1770865811825!5m2!1sen!2sco";
   const directionsUrl = "https://www.google.com/maps/dir/?api=1&destination=Hacienda+La+Victoria+Subachoque+Cundinamarca";
 
   return (
