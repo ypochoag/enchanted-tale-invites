@@ -11,6 +11,8 @@ import DressCodeSection from "@/components/DressCodeSection";
 import RSVPSection from "@/components/RSVPSection";
 import MagicParticles from "@/components/MagicParticles";
 import FloatingFairies from "@/components/FloatingFairies";
+import { useRef } from "react";
+import SootSpritesPro from "@/components/SootSpritesPro";
 
 const Index: React.FC = () => {
   return (
@@ -18,6 +20,7 @@ const Index: React.FC = () => {
         {/* Magical background effects */}
         <MagicParticles />
         <FloatingFairies />
+        <SootSpritesPro />
 
       <div className="relative min-h-screen overflow-x-hidden">
 
