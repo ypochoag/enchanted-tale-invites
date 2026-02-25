@@ -10,7 +10,7 @@ const LocationSection = () => {
       {/* Story intro */}
       <p className="drop-cap text-xl mb-8 text-center max-w-2xl mx-auto">
         En las tierras místicas de Cundinamarca, donde las montañas guardan secretos ancestrales 
-        y los vientos susurran canciones de amor eterno, se alza majestuosa la Hacienda La Victoria, 
+        y los vientos susurran canciones de amor eterno, se alza majestuosa la Casa Aragón, 
         el reino elegido para esta sagrada unión.
       </p>
 
@@ -25,7 +25,7 @@ const LocationSection = () => {
         <div className="inline-flex items-center gap-3 mb-4">
           <MapPin className="w-8 h-8 text-gold" />
           <h3 className="font-medieval text-2xl md:text-3xl text-gold-dark">
-            Hacienda La Victoria
+            Casa Aragón
           </h3>
         </div>
         <p className="text-forest-light text-lg mb-2">
@@ -53,7 +53,7 @@ const LocationSection = () => {
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="Ubicación de la Hacienda La Victoria"
+          title="Ubicación de la Casa Aragón"
           className="grayscale-[30%] sepia-[20%]"
         />
       </motion.div>
