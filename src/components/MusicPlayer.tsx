@@ -21,8 +21,13 @@ const MusicPlayer = () => {
 
     // Activar sonido en el primer click del usuario
     const enableSound = () => {
+      const audio = audioRef.current;
+      if (!audio) return;
+
       audio.muted = false;
+      audio.play().catch(() => {}); // 👈 importante
       setIsMuted(false);
+
       window.removeEventListener("click", enableSound);
     };
 
@@ -45,7 +50,7 @@ const MusicPlayer = () => {
     <>
       <audio
         ref={audioRef}
-        src="/assets/accidentally-in-love.mp3" // "/enchanted-tale-invites/accidentally-in-love.mp3"
+        src="/accidentally-in-love.mp3" // "/enchanted-tale-invites/accidentally-in-love.mp3"
         preload="auto"
       />
 

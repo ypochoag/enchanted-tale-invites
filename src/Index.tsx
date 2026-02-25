@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import borderFrame from "@/assets/border-frame.png";
-import FairyParticles from "@/components/FairyParticles";
 import MusicPlayer from "@/components/MusicPlayer";
 import HeroSection from "@/components/HeroSection";
 import ChapterSection from "@/components/ChapterSection";
@@ -48,9 +47,6 @@ const Index = () => {
           className="fixed inset-0 z-5 pointer-events-none bg-contain bg-center bg-no-repeat opacity-15"
           style={{ backgroundImage: `url(${borderFrame})` }}
         />
-
-        {/* Fairy particles */}
-        {/* <FairyParticles /> */}
 
         {/* Music player */}
         <MusicPlayer />
