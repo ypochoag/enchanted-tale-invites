@@ -85,7 +85,7 @@ const HeroSection = () => {
               Sábado, 11 de Octubre de 2026
             </p>
             <p className="font-medieval text-2xl md:text-3xl text-gold-dark">
-              4:00 de la tarde
+              2:00 de la tarde
             </p>
           </div>
         </motion.div>

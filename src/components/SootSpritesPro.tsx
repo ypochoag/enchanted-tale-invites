@@ -43,13 +43,25 @@ const SootSpritesPro: React.FC = () => {
     const loop = () => {
       setSoots((prev) =>
         prev.map((s, i) => {
+          const margin = 40; // evita que se peguen al borde
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+
+          // 🧲 ligera atracción al centro (evita pérdida total)
+          const centerX = width / 2;
+          const centerY = height / 2;
+
+          
           let vx = s.vx;
           let vy = s.vy;
-
+          
           const dx = s.x - mouse.current.x;
           const dy = s.y - mouse.current.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-
+          
+          vx += (centerX - s.x) * 0.0005;
+          vy += (centerY - s.y) * 0.0005;
+          
           // 🏃 huida
           if (dist < 150) {
             vx += (dx / dist) * 3;
@@ -74,10 +86,33 @@ const SootSpritesPro: React.FC = () => {
           vx *= 0.9;
           vy *= 0.9;
 
+          let newX = s.x + vx;
+          let newY = s.y + vy;
+
+          // 🧱 colisiones horizontales
+          if (newX < margin) {
+            newX = margin;
+            vx *= -0.6; // rebote suave
+          }
+          if (newX > width - margin) {
+            newX = width - margin;
+            vx *= -0.6;
+          }
+
+          // 🧱 colisiones verticales
+          if (newY < margin) {
+            newY = margin;
+            vy *= -0.6;
+          }
+          if (newY > height - margin) {
+            newY = height - margin;
+            vy *= -0.6;
+          }
+
           return {
             ...s,
-            x: s.x + vx,
-            y: s.y + vy,
+            x: newX,
+            y: newY,
             vx,
             vy,
           };

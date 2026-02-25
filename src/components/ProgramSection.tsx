@@ -3,37 +3,37 @@ import { Clock, Sparkles, Heart, Utensils, Music, Camera } from "lucide-react";
 
 const scheduleItems = [
   {
-    time: "4:00 PM",
+    time: "2:00 PM",
     title: "La Llegada de los Nobles",
     description: "Los portones del reino se abren para recibir a los invitados. Música de trovadores os dará la bienvenida.",
     icon: Sparkles
   },
   {
-    time: "4:30 PM",
+    time: "2:30 PM",
     title: "La Ceremonia Sagrada",
     description: "En el jardín encantado, los votos eternos serán pronunciados bajo la bendición de los antiguos robles.",
     icon: Heart
   },
   {
-    time: "5:30 PM",
+    time: "3:30 PM",
     title: "El Brindis Real",
     description: "Alzad vuestras copas en honor a los recién casados. Hidromiel y elixires mágicos serán servidos.",
     icon: Utensils
   },
   {
-    time: "6:30 PM",
+    time: "4:30 PM",
     title: "El Gran Festín",
     description: "Un banquete digno de reyes os espera. Manjares del reino serán servidos en abundancia.",
     icon: Utensils
   },
   {
-    time: "8:00 PM",
+    time: "7:00 PM",
     title: "El Primer Baile",
     description: "Los novios abrirán la pista con su vals encantado, seguido de música y danza para todos.",
     icon: Music
   },
   {
-    time: "10:00 PM",
+    time: "8:00 PM",
     title: "Retratos del Reino",
     description: "Momento para capturar memorias mágicas en el rincón de los retratos encantados.",
     icon: Camera
