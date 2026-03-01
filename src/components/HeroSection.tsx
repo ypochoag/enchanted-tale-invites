@@ -22,7 +22,8 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    // 🔥 CAMBIO: z-30 para asegurar que esté por encima de los duendes (z-10)
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden z-30">
       
       {/* Background Carousel with AnimatePresence for smooth crossfading */}
       <AnimatePresence mode="popLayout">
@@ -32,16 +33,16 @@ const HeroSection = () => {
           animate={{ opacity: 0.8, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 2, ease: "easeInOut" }} // Transición lenta y de ensueño
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat z-10" // 🔥 CAMBIO: z-10 para que esté detrás del contenido
           style={{ backgroundImage: `url(${backgroundImages[currentImage]})` }}
         />
       </AnimatePresence>
       
       {/* Gradient Overlay (Súper importante para que el texto se lea sin importar la foto de fondo) */}
-      <div className="absolute inset-0 bg-gradient-to-b from-parchment/80 via-parchment/60 to-parchment z-10" />
+      <div className="absolute inset-0 bg-gradient-to-b from-parchment/80 via-parchment/60 to-parchment z-20" /> {/* 🔥 CAMBIO: z-20 */}
 
       {/* Content */}
-      <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
+      <div className="relative z-30 text-center px-6 max-w-4xl mx-auto"> {/* 🔥 CAMBIO: z-30 */}
         {/* Decorative top element */}
         <motion.div
           initial={{ opacity: 0, y: -30 }}
@@ -123,7 +124,7 @@ const HeroSection = () => {
             opacity: { duration: 1, delay: 2 },
             y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
           }}
-          className="absolute bottom-2 left-1/2 -translate-x-1/2"
+          className="absolute bottom-2 left-1/2 -translate-x-1/2 z-30" // 🔥 CAMBIO: z-30
         >
           <ChevronDown className="w-10 h-10 text-gold-dark" />
         </motion.div>

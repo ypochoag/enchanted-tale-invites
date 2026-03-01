@@ -1,152 +1,175 @@
 import React, { useEffect, useRef, useState } from "react";
 
-type Soot = {
-  id: number;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  size: number;
-  leader: boolean;
-};
+const GROUPS = 5;
+const SOOTS_PER_GROUP = 8;
 
-const MAX = 80;
+const SootSpritesPro = () => {
+  const containerRef = useRef(null);
+  const sootsRef = useRef([]);
+  const mouse = useRef({ x: 0, y: 0 });
+  const scatterActive = useRef(false);
 
-const SootSpritesPro: React.FC = () => {
-  const [soots, setSoots] = useState<Soot[]>([]);
-  const mouse = useRef({ x: 0, y: 0, lastMove: Date.now() });
+  const [initialSoots] = useState(() => 
+    Array.from({ length: GROUPS * SOOTS_PER_GROUP }).map((_, i) => ({
+      id: i,
+      x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1000),
+      y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1000),
+      vx: 0,
+      vy: 0,
+      size: Math.random() * 8 + 22,
+      groupId: Math.floor(i / SOOTS_PER_GROUP),
+      isLeader: i % SOOTS_PER_GROUP === 0,
+      pulseDur: `${0.8 + Math.random()}s` 
+    }))
+  );
 
   useEffect(() => {
-    const handleMouse = (e: MouseEvent) => {
+    sootsRef.current = [...initialSoots];
+
+    const handleMouse = (e) => {
       mouse.current.x = e.clientX;
       mouse.current.y = e.clientY;
-      mouse.current.lastMove = Date.now();
+    };
+
+    const handleClick = () => {
+      scatterActive.current = true;
+      setTimeout(() => { scatterActive.current = false; }, 1200);
     };
 
     window.addEventListener("mousemove", handleMouse);
+    window.addEventListener("click", handleClick);
 
-    // 🌑 crear grupo inicial
-    const initial = Array.from({ length: 25 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      vx: 0,
-      vy: 0,
-      size: Math.random() * 20 + 20,
-      leader: i === 0, // 👑 líder
-    }));
-
-    setSoots(initial);
-
-    let animationFrame: number;
+    let animationFrame;
 
     const loop = () => {
-      setSoots((prev) =>
-        prev.map((s, i) => {
-          const margin = 40; // evita que se peguen al borde
-          const width = window.innerWidth;
-          const height = window.innerHeight;
+      if (!containerRef.current) return;
+      
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const margin = 100;
+      
+      const groupTargets = [
+        { x: width / 2, y: height / 2 },
+        { x: margin, y: margin },
+        { x: width - margin, y: margin },
+        { x: margin, y: height - margin },
+        { x: width - margin, y: height - margin },
+      ];
 
-          // 🧲 ligera atracción al centro (evita pérdida total)
-          const centerX = width / 2;
-          const centerY = height / 2;
+      const sootElements = containerRef.current.children;
 
-          
-          let vx = s.vx;
-          let vy = s.vy;
-          
-          const dx = s.x - mouse.current.x;
-          const dy = s.y - mouse.current.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          vx += (centerX - s.x) * 0.0005;
-          vy += (centerY - s.y) * 0.0005;
-          
-          // 🏃 huida
-          if (dist < 150) {
-            vx += (dx / dist) * 3;
-            vy += (dy / dist) * 3;
+      sootsRef.current.forEach((s, i) => {
+        let vx = s.vx;
+        let vy = s.vy;
+
+        // --- 1. MIGRACIÓN (EFECTO RESTAURADO) ---
+        // Aumentamos ligeramente la probabilidad y añadimos un pequeño impulso inicial
+        if (Math.random() < 0.002) { 
+          s.groupId = Math.floor(Math.random() * GROUPS);
+          // Le damos un pequeño "empujoncito" en la dirección del nuevo grupo
+          const newTarget = groupTargets[s.groupId];
+          vx += (newTarget.x - s.x) * 0.05;
+          vy += (newTarget.y - s.y) * 0.05;
+        }
+
+        // --- 2. SEPARACIÓN ---
+        sootsRef.current.forEach((other) => {
+          if (s.id === other.id) return;
+          const dx = s.x - other.x;
+          const dy = s.y - other.y;
+          const distSq = dx * dx + dy * dy;
+          const minDist = (s.size + other.size) * 0.7;
+          if (distSq < minDist * minDist && distSq > 0) {
+            const dist = Math.sqrt(distSq);
+            vx += (dx / dist) * 0.1; 
+            vy += (dy / dist) * 0.1;
           }
+        });
 
-          // 🧠 seguir líder (enjambre)
-          const leader = prev[0];
-          if (!s.leader) {
-            vx += (leader.x - s.x) * 0.002;
-            vy += (leader.y - s.y) * 0.002;
-          } else {
-            // líder se mueve libre
-            vx += (Math.random() - 0.5) * 0.5;
-            vy += (Math.random() - 0.5) * 0.5;
-          }
+        // --- 3. MOUSE ---
+        const dxM = s.x - mouse.current.x;
+        const dyM = s.y - mouse.current.y;
+        const distM = Math.sqrt(dxM * dxM + dyM * dyM) || 1;
 
-          // 🌫️ ruido natural
-          vx += (Math.random() - 0.5) * 0.3;
-          vy += (Math.random() - 0.5) * 0.3;
+        if (scatterActive.current || distM < 150) {
+          const power = scatterActive.current ? 18 : 4;
+          vx += (dxM / distM) * power;
+          vy += (dyM / distM) * power;
+        }
 
-          vx *= 0.9;
-          vy *= 0.9;
+        // --- 4. RETORNO DINÁMICO ---
+        const target = groupTargets[s.groupId];
+        const dxT = target.x - s.x;
+        const dyT = target.y - s.y;
+        const distT = Math.sqrt(dxT * dxT + dyT * dyT);
+        
+        // Aceleración equilibrada para que se vea el viaje entre grupos
+        const accel = distT > 300 ? 0.007 : 0.0025; 
+        
+        vx += dxT * accel;
+        vy += dyT * accel;
 
-          let newX = s.x + vx;
-          let newY = s.y + vy;
+        // --- 5. FRICCIÓN (0.91 para mejor inercia) ---
+        vx *= 0.91;
+        vy *= 0.91;
+        
+        s.x += vx;
+        s.y += vy;
+        s.vx = vx;
+        s.vy = vy;
 
-          // 🧱 colisiones horizontales
-          if (newX < margin) {
-            newX = margin;
-            vx *= -0.6; // rebote suave
-          }
-          if (newX > width - margin) {
-            newX = width - margin;
-            vx *= -0.6;
-          }
-
-          // 🧱 colisiones verticales
-          if (newY < margin) {
-            newY = margin;
-            vy *= -0.6;
-          }
-          if (newY > height - margin) {
-            newY = height - margin;
-            vy *= -0.6;
-          }
-
-          return {
-            ...s,
-            x: newX,
-            y: newY,
-            vx,
-            vy,
-          };
-        })
-      );
+        // --- 6. RENDERIZADO SIN BLINK ---
+        const el = sootElements[i];
+        if (el) {
+          const rx = Math.round(s.x);
+          const ry = Math.round(s.y);
+          el.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
+        }
+      });
 
       animationFrame = requestAnimationFrame(loop);
     };
 
-    loop();
-
+    animationFrame = requestAnimationFrame(loop);
+    
     return () => {
       window.removeEventListener("mousemove", handleMouse);
+      window.removeEventListener("click", handleClick);
       cancelAnimationFrame(animationFrame);
     };
-  }, []);
+  }, [initialSoots]);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-10">
-      {soots.map((s) => (
-        <img
+    <div ref={containerRef} className="fixed inset-0 pointer-events-none z-10 overflow-hidden">
+      {initialSoots.map((s) => (
+        <div
           key={s.id}
-          src="/soot.png"
           style={{
             position: "absolute",
-            left: s.x,
-            top: s.y,
             width: s.size,
             height: s.size,
-            transform: "translate(-50%, -50%)",
-            filter: "drop-shadow(0 5px 10px rgba(0,0,0,0.5))",
-            transition: "transform 0.1s linear",
+            left: 0,
+            top: 0,
+            transform: `translate3d(${Math.round(s.x)}px, ${Math.round(s.y)}px, 0)`,
+            willChange: "transform",
+            backfaceVisibility: "hidden",
+            transformStyle: "preserve-3d"
           }}
-        />
+        >
+          <div className="relative w-full h-full -translate-x-1/2 -translate-y-1/2">
+            <img
+              src="/soot.png"
+              alt="soot"
+              className="animate-pulse w-full h-full"
+              style={{
+                filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.4))",
+                animationDuration: s.pulseDur,
+                pointerEvents: "none",
+                opacity: 0.9
+              }}
+            />
+          </div>
+        </div>
       ))}
     </div>
   );
