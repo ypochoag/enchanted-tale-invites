@@ -1,19 +1,44 @@
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import castleDragon from "@/assets/castle-dragon.png";
-import cover from "@/assets/cover.png";
+
+// Importa aquí todas las fotos que quieras usar en el carrusel
+import cover1 from "@/assets/P01.jpeg";
+import cover2 from "@/assets/P02.jpeg";
+import cover3 from "@/assets/P03.png";
+import cover5 from "@/assets/P05.jpeg";
+
+const backgroundImages = [cover1, cover2, cover3, cover5];
 
 const HeroSection = () => {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  // Efecto para cambiar la imagen cada 5 segundos
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Castle Background */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80"
-        style={{ backgroundImage: `url(${cover})` }}
-      />
       
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-parchment/80 via-parchment/60 to-parchment" />
+      {/* Background Carousel with AnimatePresence for smooth crossfading */}
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={currentImage}
+          initial={{ opacity: 0, scale: 1.05 }} // Un ligero zoom in al aparecer
+          animate={{ opacity: 0.8, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 2, ease: "easeInOut" }} // Transición lenta y de ensueño
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${backgroundImages[currentImage]})` }}
+        />
+      </AnimatePresence>
+      
+      {/* Gradient Overlay (Súper importante para que el texto se lea sin importar la foto de fondo) */}
+      <div className="absolute inset-0 bg-gradient-to-b from-parchment/80 via-parchment/60 to-parchment z-10" />
 
       {/* Content */}
       <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">

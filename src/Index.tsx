@@ -117,7 +117,7 @@ const Index = () => {
               </div>
 
               <p className="font-medieval text-2xl md:text-3xl text-gold-dark mb-4">
-                Lady Alexandra Luna & Sir Roger Alejandro
+                Alexandra Luna & Roger Alejandro
               </p>
               
               <p className="font-body text-lg text-forest italic mb-6">
@@ -137,20 +137,6 @@ const Index = () => {
             </motion.div>
           </footer>
         </main>
-
-        {/* Navigation dots */}
-        <nav className="fixed right-4 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
-          <div className="flex flex-col gap-4">
-            {["historia", "lugar", "programa", "vestimenta", "rsvp"].map((section) => (
-              <a
-                key={section}
-                href={`#${section}`}
-                className="w-3 h-3 rounded-full border-2 border-gold bg-parchment hover:bg-gold transition-colors"
-                style={{ boxShadow: "0 0 10px hsl(45 85% 50% / 0.3)" }}
-              />
-            ))}
-          </div>
-        </nav>
       </div>
     </div>
   );
