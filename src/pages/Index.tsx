@@ -1,6 +1,5 @@
-import React from 'react';
-import { motion } from "framer-motion";
-import borderFrame from "@/assets/border-frame.png";
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from "framer-motion";
 import MusicPlayer from "@/components/MusicPlayer";
 import HeroSection from "@/components/HeroSection";
 import ChapterSection from "@/components/ChapterSection";
@@ -14,14 +13,41 @@ import FloatingFairies from "@/components/FloatingFairies";
 import SootSpritesPro from "@/components/SootSpritesPro";
 import MagicSparkles from "@/components/MagicSparkles";
 
+import totoroImg from "@/assets/totoro-silhouette.png"; 
+import dragonImg from "@/assets/skyrim-dragon.png";   
+
 const Index: React.FC = () => {
+  const { scrollYProgress } = useScroll();
+
+  const yTotoro = useTransform(scrollYProgress, [0, 1], ["10vh", "-50vh"]);
+  const yDragon = useTransform(scrollYProgress, [0, 1], ["100vh", "20vh"]);
+
   return (
-    <div className="relative min-h-screen bg-gradient-forest overflow-x-hidden">
+    <div  className="relative min-h-screen bg-gradient-forest overflow-x-hidden">
         {/* Magical background effects */}
         <MagicParticles />
         <FloatingFairies />
         <MagicSparkles />
         <SootSpritesPro />
+
+         {/* 3. CAPA DE PERSONAJES (Parallax Decorativo) */}
+          <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
+            
+            {/* Totoro escondido en la historia (Capítulo I) */}
+            <motion.img 
+              style={{ y: yTotoro }}
+              src={totoroImg} 
+              className="absolute left-10 w-64 h-auto grayscale sepia"
+            />
+    
+            {/* Un Dragón de Skyrim sobrevolando el Capítulo III/IV */}
+            <motion.img 
+              style={{ y: yDragon, x: "70vw" }}
+              src={dragonImg} 
+              className="absolute top-0 w-[40rem] h-auto opacity-40 rotate-12"
+            />
+    
+          </div>
 
       <div className="relative min-h-screen overflow-x-hidden">
 
@@ -45,12 +71,6 @@ const Index: React.FC = () => {
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
           }}
-        />
-
-        {/* Border frame overlay */}
-        <div 
-          className="fixed inset-0 z-5 pointer-events-none bg-contain bg-center bg-no-repeat opacity-15"
-          style={{ backgroundImage: `url(${borderFrame})` }}
         />
 
         {/* Music player */}

@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import borderFrame from "@/assets/border-frame.png";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import MusicPlayer from "@/components/MusicPlayer";
 import HeroSection from "@/components/HeroSection";
 import ChapterSection from "@/components/ChapterSection";
@@ -11,98 +11,102 @@ import RSVPSection from "@/components/RSVPSection";
 import MagicParticles from "@/components/MagicParticles";
 import FloatingFairies from "@/components/FloatingFairies";
 
+import totoroImg from "@/assets/totoro-silhouette.png"; 
+import dragonImg from "@/assets/skyrim-dragon.png";   
+import sootSpriteImg from "@/assets/soot.png";
+
 const Index = () => {
+   const { scrollYProgress } = useScroll();
+  
+    const yTotoro = useTransform(scrollYProgress, [0, 1], ["10vh", "-50vh"]);
+    const yDragon = useTransform(scrollYProgress, [0, 1], ["100vh", "20vh"]);
+
   return (
-    <div className="relative min-h-screen bg-gradient-forest overflow-x-hidden">
-        {/* Magical background effects */}
-        <MagicParticles />
-        <FloatingFairies />
+    <div className="relative min-h-screen bg-gradient-forest overflow-x-hidden select-none">
+      {/* 1. Capas de Efectos Fijos */}
+      <MagicParticles />
+      <FloatingFairies />
 
-      <div className="relative min-h-screen overflow-x-hidden">
+      {/* 2. El Pergamino de Fondo (Fijo) */}
+      <div className="fixed inset-0 z-0 bg-[#f4f1ea] parchment-texture" />
 
-        {/* Background texture with parchment effect */}
+      {/* 3. CAPA DE PERSONAJES (Parallax Decorativo) */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
+        
+        {/* Totoro escondido en la historia (Capítulo I) */}
+        <motion.img 
+          style={{ y: yTotoro }}
+          src={totoroImg} 
+          className="absolute left-10 w-64 h-auto grayscale sepia"
+        />
+
+        {/* Un Dragón de Skyrim sobrevolando el Capítulo III/IV */}
+        <motion.img 
+          style={{ y: yDragon, x: "70vw" }}
+          src={dragonImg} 
+          className="absolute top-0 w-[40rem] h-auto opacity-40 rotate-12"
+        />
+
+        {/* Duendes de Polvo que suben rápido */}
+        <motion.img 
+          style={{ y: ySoot, x: "20vw" }}
+          src={sootSpriteImg} 
+          className="absolute w-12 h-12"
+        />
+        <motion.img 
+          style={{ y: ySoot, x: "85vw", scale: 0.8 }}
+          src={sootSpriteImg} 
+          className="absolute w-10 h-10 delay-75"
+        />
+      </div>
+
+      {/* 4. Texturas y Marcos Pro-Level */}
+      <div className="fixed inset-0 z-5 pointer-events-none overflow-hidden">
+        
+        {/* Capa de Papel Granulado (Mucho más sutil y elegante) */}
         <div 
-          className="fixed inset-0 z-0"
-          style={{
-            background: `
-              linear-gradient(135deg, 
-                hsl(42 55% 94% / 0.95) 0%, 
-                hsl(40 50% 90% / 0.98) 50%, 
-                hsl(38 40% 82% / 0.95) 100%
-              )
-            `,
+          className="absolute inset-0 opacity-[0.15] mix-blend-multiply"
+          style={{ 
+            backgroundImage: `url("https://www.transparenttextures.com/patterns/stardust.png")`,
           }}
         />
 
-        {/* Noise texture overlay */}
+        {/* Viñeta de Enfoque: Oscurece sutilmente los bordes para dar profundidad */}
         <div 
-          className="fixed inset-0 z-0 opacity-30 pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          className="absolute inset-0"
+          style={{ 
+            background: 'radial-gradient(circle, transparent 50%, rgba(0,0,0,0.15) 100%)' 
           }}
         />
+      </div>
 
-        {/* Border frame overlay */}
-        <div 
-          className="fixed inset-0 z-5 pointer-events-none bg-contain bg-center bg-no-repeat opacity-15"
-          style={{ backgroundImage: `url(${borderFrame})` }}
-        />
+      <MusicPlayer />
 
-        {/* Music player */}
-        <MusicPlayer />
+      {/* 5. CONTENIDO PRINCIPAL */}
+      <main className="relative z-10">
+        <HeroSection />
 
-        {/* Main content */}
-        <main className="relative z-10">
-          {/* Hero Section */}
-          <HeroSection />
+        <ChapterSection chapterNumber="Capítulo I" chapterTitle="El Llamado del Destino" id="historia">
+          <StorySection />
+        </ChapterSection>
 
-          {/* Chapter I: The Call of Destiny */}
-          <ChapterSection
-            chapterNumber="Capítulo I"
-            chapterTitle="El Llamado del Destino"
-            id="historia"
-          >
-            <StorySection />
-          </ChapterSection>
+        <ChapterSection chapterNumber="Capítulo II" chapterTitle="El Reino que nos Acoge" id="lugar">
+          <LocationSection />
+        </ChapterSection>
 
-          {/* Chapter II: The Meeting of Souls (Location) */}
-          <ChapterSection
-            chapterNumber="Capítulo II"
-            chapterTitle="El Reino que nos Acoge"
-            id="lugar"
-          >
-            <LocationSection />
-          </ChapterSection>
+        <ChapterSection chapterNumber="Capítulo III" chapterTitle="El Gran Festín" id="programa">
+          <ProgramSection />
+        </ChapterSection>
 
-          {/* Chapter III: The Great Feast (Program) */}
-          <ChapterSection
-            chapterNumber="Capítulo III"
-            chapterTitle="El Gran Festín"
-            id="programa"
-          >
-            <ProgramSection />
-          </ChapterSection>
+        <ChapterSection chapterNumber="Capítulo IV" chapterTitle="El Atuendo del Reino" id="vestimenta">
+          <DressCodeSection />
+        </ChapterSection>
 
-          {/* Chapter IV: The Kingdom's Attire (Dress Code) */}
-          <ChapterSection
-            chapterNumber="Capítulo IV"
-            chapterTitle="El Atuendo del Reino"
-            id="vestimenta"
-          >
-            <DressCodeSection />
-          </ChapterSection>
+        <ChapterSection chapterNumber="Capítulo V" chapterTitle="Confirma tu Asistencia" id="rsvp">
+          <RSVPSection />
+        </ChapterSection>
 
-          {/* Chapter V: RSVP */}
-          <ChapterSection
-            chapterNumber="Capítulo V"
-            chapterTitle="Confirma tu Asistencia"
-            id="rsvp"
-          >
-            <RSVPSection />
-          </ChapterSection>
-
-          {/* Footer */}
-          <footer className="relative py-16 text-center">
+        <footer className="relative py-16 text-center">
             <motion.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -136,8 +140,7 @@ const Index = () => {
               </div>
             </motion.div>
           </footer>
-        </main>
-      </div>
+      </main>
     </div>
   );
 };
