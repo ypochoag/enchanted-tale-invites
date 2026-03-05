@@ -10,16 +10,16 @@ const pinterestItems = [
     title: "Estilo medieval"
   },
   {
-    type: "video",
-    src: "/assets/video2.mp4",
-    originalUrl: "https://pin.it/5v9YggGOd",
-    title: "Hada del bosque"
-  },
-  {
     type: "image",
     src: "/assets/imagen1.jpg",
     originalUrl: "https://pin.it/7k6wg6wbq",
     title: "Traje élfico mujer"
+  },
+  {
+    type: "video",
+    src: "/assets/video2.mp4",
+    originalUrl: "https://pin.it/5v9YggGOd",
+    title: "Hada del bosque"
   },
   {
     type: "image",
