@@ -108,7 +108,7 @@ const HeroSection = () => {
                  boxShadow: "0 0 30px hsl(45 85% 50% / 0.2)"
                }}>
             <p className="font-body text-lg md:text-xl text-forest italic mb-1">
-              Sábado, 11 de Octubre de 2026
+              Domingo, 11 de Octubre de 2026
             </p>
             <p className="font-medieval text-2xl md:text-3xl text-gold-dark">
               2:00 de la tarde
