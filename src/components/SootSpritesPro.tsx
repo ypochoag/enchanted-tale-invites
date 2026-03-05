@@ -41,94 +41,101 @@ const SootSpritesPro = () => {
 
     let animationFrame;
 
-    const loop = () => {
-      if (!containerRef.current) return;
-      
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      const margin = 100;
-      
-      const groupTargets = [
-        { x: width / 2, y: height / 2 },
-        { x: margin, y: margin },
-        { x: width - margin, y: margin },
-        { x: margin, y: height - margin },
-        { x: width - margin, y: height - margin },
-      ];
+    const loop = (time = 0) => {
+  if (!containerRef.current) return;
 
-      const sootElements = containerRef.current.children;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  const margin = 120;
 
-      sootsRef.current.forEach((s, i) => {
-        let vx = s.vx;
-        let vy = s.vy;
+  // 🌊 Targets ahora flotan orgánicamente
+  const groupTargets = Array.from({ length: GROUPS }).map((_, i) => {
+    const basePositions = [
+      { x: width / 2, y: height / 2 },
+      { x: margin, y: margin },
+      { x: width - margin, y: margin },
+      { x: margin, y: height - margin },
+      { x: width - margin, y: height - margin },
+    ];
 
-        // --- 1. MIGRACIÓN (EFECTO RESTAURADO) ---
-        // Aumentamos ligeramente la probabilidad y añadimos un pequeño impulso inicial
-        if (Math.random() < 0.002) { 
-          s.groupId = Math.floor(Math.random() * GROUPS);
-          // Le damos un pequeño "empujoncito" en la dirección del nuevo grupo
-          const newTarget = groupTargets[s.groupId];
-          vx += (newTarget.x - s.x) * 0.05;
-          vy += (newTarget.y - s.y) * 0.05;
-        }
+    const base = basePositions[i];
 
-        // --- 2. SEPARACIÓN ---
-        sootsRef.current.forEach((other) => {
-          if (s.id === other.id) return;
-          const dx = s.x - other.x;
-          const dy = s.y - other.y;
-          const distSq = dx * dx + dy * dy;
-          const minDist = (s.size + other.size) * 0.7;
-          if (distSq < minDist * minDist && distSq > 0) {
-            const dist = Math.sqrt(distSq);
-            vx += (dx / dist) * 0.1; 
-            vy += (dy / dist) * 0.1;
-          }
-        });
-
-        // --- 3. MOUSE ---
-        const dxM = s.x - mouse.current.x;
-        const dyM = s.y - mouse.current.y;
-        const distM = Math.sqrt(dxM * dxM + dyM * dyM) || 1;
-
-        if (scatterActive.current || distM < 150) {
-          const power = scatterActive.current ? 18 : 4;
-          vx += (dxM / distM) * power;
-          vy += (dyM / distM) * power;
-        }
-
-        // --- 4. RETORNO DINÁMICO ---
-        const target = groupTargets[s.groupId];
-        const dxT = target.x - s.x;
-        const dyT = target.y - s.y;
-        const distT = Math.sqrt(dxT * dxT + dyT * dyT);
-        
-        // Aceleración equilibrada para que se vea el viaje entre grupos
-        const accel = distT > 300 ? 0.007 : 0.0025; 
-        
-        vx += dxT * accel;
-        vy += dyT * accel;
-
-        // --- 5. FRICCIÓN (0.91 para mejor inercia) ---
-        vx *= 0.91;
-        vy *= 0.91;
-        
-        s.x += vx;
-        s.y += vy;
-        s.vx = vx;
-        s.vy = vy;
-
-        // --- 6. RENDERIZADO SIN BLINK ---
-        const el = sootElements[i];
-        if (el) {
-          const rx = Math.round(s.x);
-          const ry = Math.round(s.y);
-          el.style.transform = `translate3d(${rx}px, ${ry}px, 0)`;
-        }
-      });
-
-      animationFrame = requestAnimationFrame(loop);
+    return {
+      x: base.x + Math.sin(time * 0.0005 + i) * 60,
+      y: base.y + Math.cos(time * 0.0006 + i) * 60,
     };
+  });
+
+  const sootElements = containerRef.current.children;
+
+  sootsRef.current.forEach((s, i) => {
+    let vx = s.vx;
+    let vy = s.vy;
+
+    // 🐾 MIGRACIÓN más suave y frecuente
+    if (Math.random() < 0.003) {
+      s.groupId = Math.floor(Math.random() * GROUPS);
+    }
+
+    // 🌀 SEPARACIÓN
+    sootsRef.current.forEach((other) => {
+      if (s.id === other.id) return;
+      const dx = s.x - other.x;
+      const dy = s.y - other.y;
+      const distSq = dx * dx + dy * dy;
+      const minDist = (s.size + other.size) * 0.8;
+
+      if (distSq < minDist * minDist && distSq > 0) {
+        const dist = Math.sqrt(distSq);
+        vx += (dx / dist) * 0.12;
+        vy += (dy / dist) * 0.12;
+      }
+    });
+
+    // 🖱 Mouse interacción
+    const dxM = s.x - mouse.current.x;
+    const dyM = s.y - mouse.current.y;
+    const distM = Math.sqrt(dxM * dxM + dyM * dyM) || 1;
+
+    if (scatterActive.current || distM < 140) {
+      const power = scatterActive.current ? 20 : 5;
+      vx += (dxM / distM) * power;
+      vy += (dyM / distM) * power;
+    }
+
+    // 🎯 TARGET dinámico + órbita individual
+    const target = groupTargets[s.groupId];
+
+    const orbitOffsetX = Math.sin(time * 0.001 + s.id) * 25;
+    const orbitOffsetY = Math.cos(time * 0.0012 + s.id) * 25;
+
+    const dxT = target.x + orbitOffsetX - s.x;
+    const dyT = target.y + orbitOffsetY - s.y;
+
+    vx += dxT * 0.0035;
+    vy += dyT * 0.0035;
+
+    // 🌬 Micro ruido orgánico
+    vx += (Math.random() - 0.5) * 0.15;
+    vy += (Math.random() - 0.5) * 0.15;
+
+    // 🧲 Fricción más ligera → más vida
+    vx *= 0.94;
+    vy *= 0.94;
+
+    s.x += vx;
+    s.y += vy;
+    s.vx = vx;
+    s.vy = vy;
+
+    const el = sootElements[i];
+    if (el) {
+      el.style.transform = `translate3d(${s.x}px, ${s.y}px, 0)`;
+    }
+  });
+
+  animationFrame = requestAnimationFrame(loop);
+};
 
     animationFrame = requestAnimationFrame(loop);
     
