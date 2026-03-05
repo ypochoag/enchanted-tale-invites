@@ -1,5 +1,63 @@
 import { motion } from "framer-motion";
 import dressCodeExamples from "@/assets/dress-code-examples.png";
+import PinterestCarousel from "@/components/PinterestCarousel";
+
+const pinterestItems = [
+  {
+    type: "video",
+    src: "/assets/video1.mp4",
+    originalUrl: "https://pin.it/HDjAIz0QB",
+    title: "Estilo medieval"
+  },
+  {
+    type: "video",
+    src: "/assets/video2.mp4",
+    originalUrl: "https://pin.it/5v9YggGOd",
+    title: "Hada del bosque"
+  },
+  {
+    type: "image",
+    src: "/assets/imagen1.jpg",
+    originalUrl: "https://pin.it/7k6wg6wbq",
+    title: "Traje élfico mujer"
+  },
+  {
+    type: "image",
+    src: "/assets/imagen2.jpg",
+    originalUrl: "https://pin.it/4XIuYgMYs",
+    title: "Hadas encantadas"
+  },
+  {
+    type: "image",
+    src: "/assets/imagen3.png",
+    originalUrl: "https://pin.it/7gRMAS9RD",
+    title: "Vestido élfico"
+  },
+  {
+    type: "image",
+    src: "/assets/imagen4.jpg",
+    originalUrl: "https://pin.it/5NoZ2rQwP",
+    title: "Coronel de guerra"
+  },
+  {
+    type: "image",
+    src: "/assets/imagen5.jpg",
+    originalUrl: "https://pin.it/7aZmJlqBi",
+    title: "Caballero medieval"
+  },
+  {
+    type: "image",
+    src: "/assets/imagen6.jpg",
+    originalUrl: "https://pin.it/64jqGzg9p",
+    title: "Caballero Oscuro"
+  },
+  {
+    type: "image",
+    src: "/assets/imagen7.jpg",
+    originalUrl: "https://pin.it/HZRnpeZFW",
+    title: "Elfo del bosque"
+  }
+];
 
 const dressCodeItems = [
   {
@@ -36,7 +94,7 @@ const DressCodeSection = () => {
       </div>
 
       {/* Visual Examples */}
-      <motion.div 
+        <motion.div 
         className="mb-12"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -69,6 +127,16 @@ const DressCodeSection = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* Carrusel de ejemplos */}
+      <motion.div 
+        className="mb-12" 
+        initial={{ opacity: 0, y: 30 }} 
+        whileInView={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.8 }} 
+        viewport={{ once: true }}>
+        <PinterestCarousel items={pinterestItems} />
+      </motion.div>
 
       {/* Color palette suggestion */}
       <motion.div 

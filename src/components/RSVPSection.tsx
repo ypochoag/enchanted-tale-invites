@@ -111,10 +111,10 @@ const RSVPSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 }}
           >
-            <h3 className="font-medieval text-5xl text-gold-dark mb-6 uppercase tracking-widest">
+            <h3 className="font-medieval text-3xl text-gold-dark mb-6 uppercase tracking-widest">
               ¡Mensaje Custodiado!
             </h3>
-            <p className="font-body text-2xl text-forest max-w-xl mx-auto leading-relaxed italic">
+            <p className="font-body text-xl text-forest max-w-xl mx-auto leading-relaxed italic">
               Vuestra respuesta ha sido entregada. <strong>Lilo</strong> la guardará con su vida hasta el día del banquete.
             </p>
           </motion.div>
