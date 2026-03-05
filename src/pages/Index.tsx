@@ -142,7 +142,7 @@ const Index: React.FC = () => {
               </div>
 
               <p className="font-medieval text-2xl md:text-3xl text-gold-dark mb-4">
-                Alexandra Luna & Roger Alejandro
+                Zully Luna & Roger Alejandro
               </p>
               
               <p className="font-body text-lg text-forest italic mb-6">

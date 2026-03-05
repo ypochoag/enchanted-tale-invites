@@ -21,8 +21,8 @@ const StorySection = () => {
         {/* Story text */}
         <p className="drop-cap text-xl mb-8 leading-relaxed">
           Cuenta la leyenda que en una tierra lejana, donde el destino teje sus hilos más 
-          misteriosos, dos almas estaban destinadas a encontrarse. Lady Alexandra Luna, 
-          de espíritu noble y corazón puro, y Sir Roger Alejandro, valiente caballero de 
+          misteriosos, dos almas estaban destinadas a encontrarse. Zully Luna, 
+          de espíritu noble y corazón puro, y Roger Alejandro, valiente caballero de 
           inquebrantable lealtad.
         </p>
 
