@@ -71,7 +71,7 @@ const Index: React.FC = () => {
           src={dragonImg}
           alt="Dragón decorativo"
           style={{ y: yDragon }}
-          className="absolute left-0 w-44 h-auto grayscale sepia"
+          className="absolute left-10 w-44 h-auto grayscale sepia"
         />
 
         {/* Totoro */}
