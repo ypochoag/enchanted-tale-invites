@@ -46,18 +46,6 @@ const Index = () => {
           src={dragonImg} 
           className="absolute top-0 w-[40rem] h-auto opacity-40 rotate-12"
         />
-
-        {/* Duendes de Polvo que suben rápido */}
-        <motion.img 
-          style={{ y: ySoot, x: "20vw" }}
-          src={sootSpriteImg} 
-          className="absolute w-12 h-12"
-        />
-        <motion.img 
-          style={{ y: ySoot, x: "85vw", scale: 0.8 }}
-          src={sootSpriteImg} 
-          className="absolute w-10 h-10 delay-75"
-        />
       </div>
 
       {/* 4. Texturas y Marcos Pro-Level */}
@@ -121,7 +109,7 @@ const Index = () => {
               </div>
 
               <p className="font-medieval text-2xl md:text-3xl text-gold-dark mb-4">
-                Zully Luna & Roger Alejandro
+                Zully Luna & Roger Parra
               </p>
               
               <p className="font-body text-lg text-forest italic mb-6">

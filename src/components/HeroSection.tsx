@@ -91,7 +91,7 @@ const HeroSection = () => {
           <span className="font-uncial text-2xl md:text-3xl text-gold block my-4">&</span>
           <h2 className="font-medieval text-3xl md:text-5xl lg:text-6xl text-forest-light"
               style={{ textShadow: "2px 2px 0 hsl(45 85% 50% / 0.3)" }}>
-            Roger Alejandro
+            Roger Parra
           </h2>
         </motion.div>
 

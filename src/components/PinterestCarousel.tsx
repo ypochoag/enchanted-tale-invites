@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-type Item = {
+export type Item = {
   src: string;
   type?: "image" | "video";
   originalUrl?: string;

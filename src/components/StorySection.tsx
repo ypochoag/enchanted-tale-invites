@@ -22,7 +22,7 @@ const StorySection = () => {
         <p className="drop-cap text-xl mb-8 leading-relaxed">
           Cuenta la leyenda que en una tierra lejana, donde el destino teje sus hilos más 
           misteriosos, dos almas estaban destinadas a encontrarse. Zully Luna, 
-          de espíritu noble y corazón puro, y Roger Alejandro, valiente caballero de 
+          de espíritu noble y corazón puro, y Roger Parra, valiente caballero de 
           inquebrantable lealtad.
         </p>
 

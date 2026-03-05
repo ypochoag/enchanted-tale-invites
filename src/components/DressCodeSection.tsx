@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import dressCodeExamples from "@/assets/dress-code-examples.png";
-import PinterestCarousel from "@/components/PinterestCarousel";
+import PinterestCarousel, { Item } from "@/components/PinterestCarousel";
 
-const pinterestItems = [
+const pinterestItems: Item[] = [
   {
     type: "video",
     src: "/assets/video1.mp4",
