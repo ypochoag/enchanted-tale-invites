@@ -13,6 +13,7 @@ import MagicParticles from "@/components/MagicParticles";
 import FloatingFairies from "@/components/FloatingFairies";
 import SootSpritesPro from "@/components/SootSpritesPro";
 import MagicSparkles from "@/components/MagicSparkles";
+import GiftSection from "@/components/GiftSection";
 
 import totoroImg from "@/assets/navo.png";
 import ponio from "@/assets/ponio.png";
@@ -135,6 +136,14 @@ const Index: React.FC = () => {
           id="rsvp"
         >
           <RSVPSection />
+        </ChapterSection>
+
+        <ChapterSection
+          chapterNumber="Capítulo VI"
+          chapterTitle="Los Regalos del Reino"
+          id="regalos"
+        >
+          <GiftSection />
         </ChapterSection>
 
         {/* 🏰 Footer */}
